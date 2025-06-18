@@ -40,6 +40,20 @@ export default function App() {
     });
 
     setCustomers((allCustomers) => [...allCustomers, response.data]);
+
+    nameRef.current.value = "";
+    emailRef.current.value = "";
+  }
+
+  async function handleDelete(id: string) {
+    try {
+      await api.delete(`/customer/${id}`);
+
+      const allCustomers = customers.filter((customer) => customer.id !== id);
+      setCustomers(allCustomers);
+    } catch (error) {
+      console.error("Erro ao deletar cliente:", error);
+    }
   }
 
   return (
@@ -90,7 +104,10 @@ export default function App() {
                 <span className="font-medium">Status:</span>{" "}
                 {customer.status ? "Ativo" : "Inativo"}
               </p>
-              <button className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-0 -top-2">
+              <button
+                className="bg-red-500 w-7 h-7 flex items-center justify-center rounded-lg absolute right-0 -top-2"
+                onClick={() => handleDelete(customer.id)}
+              >
                 <FiTrash size={18} color="#FFF" />
               </button>
             </article>
