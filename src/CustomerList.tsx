@@ -20,10 +20,14 @@ export default function CustomerList({
   setCustomers,
   onRegisterNewClick,
 }: CustomerListProps) {
-  async function handleDelete(id: string) {
+  async function handleDelete(id: string, name: string) {
+    const confirmation = window.confirm(
+      `Tem certeza que deseja deletar cliente ${name} ?`
+    );
+    if (!confirmation) return;
+
     try {
       await api.delete(`/customer/${id}`);
-
       const allCustomers = customers.filter((customer) => customer.id !== id);
       setCustomers(allCustomers);
     } catch (error) {
@@ -71,7 +75,7 @@ export default function CustomerList({
           <div className="absolute top-3 right-3">
             <button
               className="bg-red-600 w-9 h-9 flex items-center justify-center rounded-full transition-colors duration-200 hover:bg-red-700 shadow-md"
-              onClick={() => handleDelete(customer.id)}
+              onClick={() => handleDelete(customer.id, customer.name)}
               aria-label={`Deletar cliente ${customer.name}`}
             >
               <FiTrash size={20} color="#FFF" />
