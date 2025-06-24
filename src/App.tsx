@@ -59,7 +59,12 @@ export default function App() {
   {
     /* função de DELETAR */
   }
-  const handleCustomerDelete = async (id: string) => {
+  const handleCustomerDelete = async (id: string, name: string) => {
+    const confirmDelete = window.confirm(
+      `Você tem certeza que deseja deletar o cliente ${name}?`
+    );
+    if (!confirmDelete) return;
+
     try {
       await api.delete(`/customer/${id}`);
       const allCustomers = customers.filter((customer) => customer.id !== id);

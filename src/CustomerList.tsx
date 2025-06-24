@@ -12,7 +12,7 @@ interface CustomerListProps {
   customers: CustomerProps[];
   onRegisterNewClick: () => void;
   onEditClick?: (customer: CustomerProps) => void;
-  onDeleteClick?: (id: string) => void;
+  onDeleteClick?: (id: string, name: string) => void;
 }
 
 export default function CustomerList({
@@ -69,7 +69,7 @@ export default function CustomerList({
 
             <button
               className="bg-red-600 w-9 h-9 flex items-center justify-center rounded-full transition-colors duration-200 hover:bg-red-700 shadow-md"
-              onClick={() => onDeleteClick?.(customer.id)}
+              onClick={() => onDeleteClick?.(customer.id, customer.name)}
               aria-label={`Deletar cliente ${customer.name}`}
             >
               <FiTrash size={20} color="#FFF" />
