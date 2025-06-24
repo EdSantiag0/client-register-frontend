@@ -58,7 +58,7 @@ export default function CustomerList({
             )}
           </p>
 
-          <div className="absolute top-3 right-3 ">
+          <div className="absolute top-3 right-3 flex-col flex gap-2">
             <button
               className="bg-blue-600 w-9 h-9 flex items-center justify-center rounded-full transition-colors duration-200 hover:bg-blue-700 shadow-md"
               onClick={() => onEditClick?.(customer)}

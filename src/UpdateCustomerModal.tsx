@@ -44,7 +44,9 @@ export default function UpdateCustomerModal({
         email: emailRef.current.value,
       });
 
-      onUpdateSuccess(response.data);
+      console.log("Dados retornados pela API após atualização:", response.data);
+
+      onUpdateSuccess(response.data.customer);
       onClose();
     } catch (error) {
       console.error("Erro ao atualizar cliente:", error);
