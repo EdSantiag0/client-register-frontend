@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { api } from "./services/api";
 import RegisterCustomer from "./RegisterCustomer";
 import CustomerList from "./CustomerList";
+import UpdateCustomerModal from "./UpdateCustomerModal";
 
 interface CustomerProps {
   id: string;
@@ -16,6 +17,9 @@ type ViewType = "list" | "register";
 export default function App() {
   const [customers, setCustomers] = useState<CustomerProps[]>([]);
   const [currentView, setCurrentView] = useState<ViewType>("list");
+  const [editingCustomer, setEditingCustomer] = useState<CustomerProps | null>(
+    null
+  );
 
   async function loadCustomers() {
     try {
@@ -30,12 +34,41 @@ export default function App() {
     loadCustomers();
   }, []);
 
+  {
+    /* função de Alternar Visualisação */
+  }
   const handleViewChange = (view: ViewType) => {
     setCurrentView(view);
     if (view === "list") {
       loadCustomers();
     }
   };
+
+  {
+    /* função de ATUALIZAR*/
+  }
+  const handleCustomerUpdated = (updatedCustomer: CustomerProps) => {
+    setCustomers((prevCustomers) =>
+      prevCustomers.map((customer) =>
+        customer.id === updatedCustomer.id ? updatedCustomer : customer
+      )
+    );
+    setEditingCustomer(null);
+  };
+
+  {
+    /* função de DELETAR */
+  }
+  const handleCustomerDelete = async (id: string) => {
+    try {
+      await api.delete(`/customer/${id}`);
+      const allCustomers = customers.filter((customer) => customer.id !== id);
+      setCustomers(allCustomers);
+    } catch (error) {
+      console.error("Erro ao deletar cliente:", error);
+    }
+  };
+
   return (
     <div className="w-full min-h-screen bg-gray-900 flex justify-center items-start px-4 font-inter">
       <main className="my-10 w-full md:max-w-2xl bg-gray-800 p-6 rounded-lg shadow-xl">
@@ -45,14 +78,23 @@ export default function App() {
         {currentView === "list" ? (
           <CustomerList
             customers={customers}
-            setCustomers={setCustomers}
             onRegisterNewClick={() => handleViewChange("register")}
+            onEditClick={setEditingCustomer}
+            onDeleteClick={handleCustomerDelete}
           />
         ) : (
           <RegisterCustomer
             setCustomers={setCustomers}
             onRegistrationSuccess={() => handleViewChange("list")}
             onBackToList={() => handleViewChange("list")}
+          />
+        )}
+
+        {editingCustomer && (
+          <UpdateCustomerModal
+            customer={editingCustomer}
+            onClose={() => setEditingCustomer(null)}
+            onUpdateSuccess={handleCustomerUpdated}
           />
         )}
       </main>
