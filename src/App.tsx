@@ -61,7 +61,7 @@ export default function App() {
   }
   const handleCustomerDelete = async (id: string, name: string) => {
     const confirmDelete = window.confirm(
-      `Você tem certeza que deseja deletar o cliente ${name}?`
+      `Você tem certeza que deseja deletar cliente ${name}?`
     );
     if (!confirmDelete) return;
 

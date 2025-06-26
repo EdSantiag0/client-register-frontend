@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import type { FormEvent } from "react";
 import { api } from "./services/api";
+import { z } from "zod";
 
 interface CustomerProps {
   id: string;
@@ -16,6 +17,11 @@ interface RegisterCustomerProps {
   onBackToList: () => void;
 }
 
+const registerCustomerSchema = z.object({
+  name: z.string().min(1, "Nome é obrigatório"),
+  email: z.string().email("Email inválido").min(1, "Email é obrigatório"),
+});
+
 export default function RegisterCustomer({
   setCustomers,
   onRegistrationSuccess,
@@ -29,6 +35,18 @@ export default function RegisterCustomer({
 
     if (!nameRef.current || !emailRef.current) {
       console.error("Nome ou email não preenchidos.");
+      return;
+    }
+
+    const formData = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+    };
+
+    const validation = registerCustomerSchema.safeParse(formData);
+
+    if (!validation.success) {
+      alert(validation.error.errors[0].message);
       return;
     }
 
@@ -83,7 +101,6 @@ export default function RegisterCustomer({
       <button
         type="submit"
         className="cursor-pointer w-full p-3 bg-green-600 text-white font-bold rounded-md text-lg hover:bg-green-700 transition-colors duration-200 shadow-lg mt-4"
-        onClick={handleSubmit}
       >
         Cadastrar
       </button>

@@ -1,6 +1,7 @@
 import { useRef, useEffect } from "react";
 import type { FormEvent } from "react";
 import { api } from "./services/api";
+import { z } from "zod";
 
 interface CustomerProps {
   id: string;
@@ -15,6 +16,11 @@ interface UpdateCustomerModalProps {
   onClose: () => void;
   onUpdateSuccess: (updatedCustomer: CustomerProps) => void;
 }
+
+const updateCustomerSchema = z.object({
+  name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
+  email: z.string().email("Email inválido"),
+});
 
 export default function UpdateCustomerModal({
   customer,
@@ -38,13 +44,20 @@ export default function UpdateCustomerModal({
 
     if (!nameRef.current || !emailRef.current) return;
 
-    try {
-      const response = await api.put(`/customer/${customer.id}`, {
-        name: nameRef.current.value,
-        email: emailRef.current.value,
-      });
+    const formData = {
+      name: nameRef.current.value,
+      email: emailRef.current.value,
+    };
 
-      console.log("Dados retornados pela API após atualização:", response.data);
+    const validation = updateCustomerSchema.safeParse(formData);
+
+    if (!validation.success) {
+      alert(validation.error.errors[0].message);
+      return;
+    }
+
+    try {
+      const response = await api.put(`/customer/${customer.id}`, formData);
 
       onUpdateSuccess(response.data.customer);
       onClose();
