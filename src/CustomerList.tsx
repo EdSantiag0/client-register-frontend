@@ -1,5 +1,4 @@
-import { FiTrash } from "react-icons/fi";
-import { api } from "./services/api";
+import { FiTrash, FiEdit } from "react-icons/fi";
 
 interface CustomerProps {
   id: string;
@@ -11,26 +10,17 @@ interface CustomerProps {
 
 interface CustomerListProps {
   customers: CustomerProps[];
-  setCustomers: React.Dispatch<React.SetStateAction<CustomerProps[]>>;
   onRegisterNewClick: () => void;
+  onEditClick?: (customer: CustomerProps) => void;
+  onDeleteClick?: (id: string, name: string) => void;
 }
 
 export default function CustomerList({
   customers,
-  setCustomers,
   onRegisterNewClick,
+  onEditClick,
+  onDeleteClick,
 }: CustomerListProps) {
-  async function handleDelete(id: string) {
-    try {
-      await api.delete(`/customer/${id}`);
-
-      const allCustomers = customers.filter((customer) => customer.id !== id);
-      setCustomers(allCustomers);
-    } catch (error) {
-      console.error("Erro ao deletar cliente:", error);
-    }
-  }
-
   return (
     <section className="flex flex-col gap-4 mt-8">
       <button
@@ -68,10 +58,18 @@ export default function CustomerList({
             )}
           </p>
 
-          <div className="absolute top-3 right-3">
+          <div className="absolute top-3 right-3 flex-col flex gap-2">
+            <button
+              className="bg-blue-600 w-9 h-9 flex items-center justify-center rounded-full transition-colors duration-200 hover:bg-blue-700 shadow-md"
+              onClick={() => onEditClick?.(customer)}
+              aria-label={`Editar cliente ${customer.name}`}
+            >
+              <FiEdit size={20} color="#FFF" />
+            </button>
+
             <button
               className="bg-red-600 w-9 h-9 flex items-center justify-center rounded-full transition-colors duration-200 hover:bg-red-700 shadow-md"
-              onClick={() => handleDelete(customer.id)}
+              onClick={() => onDeleteClick?.(customer.id, customer.name)}
               aria-label={`Deletar cliente ${customer.name}`}
             >
               <FiTrash size={20} color="#FFF" />

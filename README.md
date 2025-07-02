@@ -1,54 +1,67 @@
-# React + TypeScript + Vite
+# Client Register Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Demonstração da API](https://github.com/EdSantiag0/client-register-frontend/blob/desenvolvimento/assets/image.png)
 
-Currently, two official plugins are available:
+## Descrição
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+O **Client Register Frontend** é uma aplicação web desenvolvida em React para gerenciamento de clientes, permitindo o cadastro, listagem, edição e remoção de registros de forma simples e eficiente.  
+O projeto foi construído com foco em usabilidade, validação robusta de dados e experiência do usuário, utilizando as melhores práticas do ecossistema React moderno.
 
-## Expanding the ESLint configuration
+Esta aplicação consome uma API REST desenvolvida pelo próprio autor, garantindo total controle sobre o fluxo de dados e a integração entre frontend e backend.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tecnologias
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Zod](https://zod.dev/) (validação de formulários)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Funcionalidades
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Cadastro de novos clientes
+- Listagem de clientes cadastrados
+- Edição de dados do cliente
+- Remoção de clientes com confirmação
+- Validação de formulários com Zod
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Como rodar o projeto
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/seu-usuario/client-register-frontend.git
+   cd client-register-frontend
+   ```
+
+2. Instale as dependências:
+
+   ```bash
+   npm install
+   ```
+
+3. Inicie o servidor de desenvolvimento:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Acesse [http://localhost:5173](http://localhost:5173) no navegador.
+
+## Estrutura de Pastas
+
+- `src/App.tsx` — Componente principal e controle de views
+- `src/CustomerList.tsx` — Listagem de clientes
+- `src/RegisterCustomer.tsx` — Cadastro de clientes
+- `src/UpdateCustomerModal.tsx` — Edição de clientes
+
+## Observações
+
+- Certifique-se de que o backend da API de clientes esteja rodando.
+- As validações de formulário são feitas com Zod.
+
+---
+
+## Autor
+
+Desenvolvido por [Ed Santiago.](https://github.com/EdSantiag0)
