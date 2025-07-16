@@ -21,12 +21,17 @@ export default function App() {
     null
   );
 
+  const [isLoading, setIsLoading] = useState(true);
+
   async function loadCustomers() {
     try {
+      setIsLoading(true);
       const response = await api.get("/customers");
       setCustomers(response.data);
     } catch (error) {
       console.error("Erro ao carregar clientes:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -86,6 +91,7 @@ export default function App() {
             onRegisterNewClick={() => handleViewChange("register")}
             onEditClick={setEditingCustomer}
             onDeleteClick={handleCustomerDelete}
+            isLoading={isLoading}
           />
         ) : (
           <RegisterCustomer
