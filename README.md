@@ -9,6 +9,10 @@ O projeto foi construído com foco em usabilidade, validação robusta de dados 
 
 Esta aplicação consome uma API REST desenvolvida pelo próprio autor, garantindo total controle sobre o fluxo de dados e a integração entre frontend e backend.
 
+## Live Version
+
+https://client-register-frontend.vercel.app/
+
 ## Tecnologias
 
 - [React](https://react.dev/)
